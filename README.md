@@ -138,6 +138,17 @@ Unlock a smart and personalized health experience powered by AI and data.
 
 ---
 
+## 🛠️ Tech Stack
+
+| Layer     | Technology               |
+|-----------|--------------------------|
+| Frontend  | React Native (Expo)      |
+| Backend   | FastAPI (Python)         |
+| AI API    | Node.js + Gemini API     |
+| Database  | Supabase                 |
+
+---
+
 ## 💡 Developer Tips
 Use ipconfig (Windows) or network settings to find your local IP address.
 
