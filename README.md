@@ -110,8 +110,9 @@ To enable communication between frontend and backend across your local network:
 | `BMIResultScreen.js` | ~ Line 56      | `https://<your_local_ip>:8000/predict_obesity_risk/`         |
 
 
-
+-----
 ✅ After updating the IPs, save the files and restart your app to apply changes.
+
 ---
 
 ## 🌟 Key Features
@@ -119,7 +120,7 @@ To enable communication between frontend and backend across your local network:
 Unlock a smart and personalized health experience powered by AI and data.
 
 
-### 🤖 AI-Powered Health Intelligence
+#### 🤖 AI-Powered Health Intelligence
 - Get **tailored nutrition and health tips** generated using advanced AI models.
 
 ### 🧮 BMI & Obesity Risk Estimation
