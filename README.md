@@ -23,14 +23,14 @@ You can get the project files in two ways:
 
 ```bash
 # Clone the repository using Git
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/zseng0912/nutri-recommendation.git
 
 # Navigate into the project folder
 cd your-repo-name
 ```
 ### 📌 Option 2: Download ZIP
 
-1. 🔗 Visit the repository on [GitHub](https://github.com/your-username/your-repo-name)
+1. 🔗 Visit the repository on [GitHub](https://github.com/zseng0912/nutri-recommendation.git)
 2. ⬇️ Click on the green **"Code"** button
 3. Select **"Download ZIP"**
 4. 🗂️ Extract the ZIP file to your desired location
@@ -92,6 +92,7 @@ To enable communication between frontend and backend across your local network:
 ---
 
 ## 📝 Files to Update
+✅ After updating the IPs, save the files and restart your app to apply changes.
 
 ### 📁 `nutri/src/api/`
 
@@ -108,10 +109,6 @@ To enable communication between frontend and backend across your local network:
 | File                 | Line (Approx.) | Replace With                                                  |
 |----------------------|----------------|----------------------------------------------------------------|
 | `BMIResultScreen.js` | ~ Line 56      | `https://<your_local_ip>:8000/predict_obesity_risk/`         |
-
-
------
-✅ After updating the IPs, save the files and restart your app to apply changes.
 
 ---
 
