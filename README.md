@@ -31,3 +31,51 @@ pip install -r requirements.txt
 
 # Start FastAPI server
 uvicorn main:app --host 0.0.0.0 --port 8000
+```
+### 2. Run Nutri (Main React Native App)
+```bash
+cd nutri
+# Install Expo CLI
+npm install expo
+
+# Start the app
+npx expo start
+
+# Press "a" to launch Android emulator
+# (Optional) Reset cache:
+npx expo start -c
+```
+### 3. Run Gemini API
+```bash
+cd geminiAPI
+
+# Start Server
+node app.js
+```
+
+## 🔧 Important Configuration
+Update localhost IP addresses for local network access. Use ipconfig (Windows) or check the IP from your Expo Developer Tools.
+
+## ➤ Modify the following files:
+### 📂 nutri/src/api/
+AISuggest.js:
+https://<your_local_ip>:3000/generate-ai-tips
+
+EstimateCalories.js:
+http://<your_local_ip>:3000/estimate-calories
+
+geminiAPI.js:
+http://<your_local_ip>:3000/ai-chatbot
+
+### 📂 nutri/src/screen/
+BMIResultScreen.js
+Around line 56:
+https://<your_local_ip>:8000/predict_obesity_risk/
+
+## 💡 Developer Tips
+Use ipconfig (Windows) or network settings to find your local IP address.
+
+Make sure your mobile device or emulator is connected to the same network as your development machine.
+
+## 📞 Support
+If you encounter any issues or bugs, feel free to create a GitHub issue or contact the maintainer.
