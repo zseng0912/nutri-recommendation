@@ -1,4 +1,3 @@
-Can you help me do a nice ReadMe text file with some icon
 
 1. Run fastapi_backend
   🔗 uvicorn main:app --host 0.0.0.0 --port 8000
