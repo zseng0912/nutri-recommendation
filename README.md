@@ -1,17 +1,17 @@
-<h1 align="center" id="title">vvsafsaf</h1>
 # 🥗 NutriAI – AI-Powered Nutrition & Health App
 
 NutriAI is an AI-powered mobile application that provides personalized health risk predictions, BMI calculations, and nutrition recommendations using FastAPI, React Native (Expo), and Gemini AI APIs.
 
 ---
 
-## ⚙️ Prerequisites
+## 🧰 Prerequisites
 
 Before getting started, ensure the following tools are installed on your system:
 
-- ✅ [Node.js](https://nodejs.org/en)
-- ✅ [Android Studio](https://developer.android.com/studio)
-- ✅ [Python](https://www.python.org/downloads/)
+- ![Node.js](https://img.icons8.com/color/48/000000/nodejs.png) [**Node.js**](https://nodejs.org/en)
+- ![Android Studio](https://img.icons8.com/color/48/000000/android-studio--v2.png) [**Android Studio**](https://developer.android.com/studio)
+- ![Python](https://img.icons8.com/color/48/000000/python--v1.png) [**Python**](https://www.python.org/downloads/)
+
 
 ---
 
