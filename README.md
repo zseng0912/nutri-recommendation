@@ -54,24 +54,41 @@ cd geminiAPI
 node app.js
 ```
 
-## 🔧 Important Configuration
-Update localhost IP addresses for local network access. Use ipconfig (Windows) or check the IP from your Expo Developer Tools.
+## ⚙️ Important Configuration
 
-## ➤ Modify the following files:
-### 📂 nutri/src/api/
-AISuggest.js:
-https://<your_local_ip>:3000/generate-ai-tips
+To enable communication between frontend and backend across your local network:
 
-EstimateCalories.js:
-http://<your_local_ip>:3000/estimate-calories
+🔄 **Replace all `localhost` URLs with your local IP address.**
 
-geminiAPI.js:
-http://<your_local_ip>:3000/ai-chatbot
+💡 You can find your IP address using:
 
-### 📂 nutri/src/screen/
-BMIResultScreen.js
-Around line 56:
-https://<your_local_ip>:8000/predict_obesity_risk/
+- 🪟 **Windows**: Run `ipconfig` in Command Prompt
+- 📱 **React Native (Expo)**: Your IP appears in the Expo Developer Tools
+
+---
+
+## 📝 Files to Update
+
+### 📁 `nutri/src/api/`
+
+| File              | Line to Modify                          | Replace With                                                  |
+|-------------------|------------------------------------------|----------------------------------------------------------------|
+| `AISuggest.js`     | Endpoint URL                            | `https://<your_local_ip>:3000/generate-ai-tips`              |
+| `EstimateCalories.js` | Endpoint URL                            | `http://<your_local_ip>:3000/estimate-calories`              |
+| `geminiAPI.js`      | Endpoint URL                            | `http://<your_local_ip>:3000/ai-chatbot`                     |
+
+---
+
+### 📁 `nutri/src/screen/`
+
+| File                 | Line (Approx.) | Replace With                                                  |
+|----------------------|----------------|----------------------------------------------------------------|
+| `BMIResultScreen.js` | ~ Line 56      | `https://<your_local_ip>:8000/predict_obesity_risk/`         |
+
+---
+
+✅ After updating the IPs, save the files and restart your app to apply changes.
+
 
 ## 💡 Developer Tips
 Use ipconfig (Windows) or network settings to find your local IP address.
