@@ -123,19 +123,19 @@ Unlock a smart and personalized health experience powered by AI and data.
 #### 🤖 AI-Powered Health Intelligence
 - Get **tailored nutrition and health tips** generated using advanced AI models.
 
-### 🧮 BMI & Obesity Risk Estimation
+#### 🧮 BMI & Obesity Risk Estimation
 - Instantly calculate **Body Mass Index (BMI)**.
 - Predict **obesity risk levels** using ML-powered FastAPI backend.
 
-### 🗣️ AI Chatbot (Gemini API Integration)
+#### 🗣️ AI Chatbot (Gemini API Integration)
 - Chat with our integrated **AI assistant** for real-time health advice.
 - Ask questions, get support, and interact naturally.
 
-### 🍱 Food Calorie Estimation
+#### 🍱 Food Calorie Estimation
 - **Estimate calorie content** of any food item.
 - Automatically **update your daily intake** in real-time.
 
-### 📊 Progress & Health Tracking
+#### 📊 Progress & Health Tracking
 - Monitor your **BMI, weight trends**, and **risk levels**.
 - Visualize **daily calorie goals and progress** through intuitive charts.
 
