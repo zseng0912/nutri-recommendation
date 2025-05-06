@@ -1,3 +1,4 @@
+<h1 align="center" id="title">vvsafsaf</h1>
 # 🥗 NutriAI – AI-Powered Nutrition & Health App
 
 NutriAI is an AI-powered mobile application that provides personalized health risk predictions, BMI calculations, and nutrition recommendations using FastAPI, React Native (Expo), and Gemini AI APIs.
