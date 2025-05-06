@@ -15,6 +15,31 @@ Before getting started, ensure the following tools are installed on your system:
 
 ---
 
+## 📥 Installation
+
+You can get the project files in two ways:
+
+---
+
+### 📌 Option 1: Clone via Git
+
+```bash
+# Clone the repository using Git
+git clone https://github.com/your-username/your-repo-name.git
+
+# Navigate into the project folder
+cd your-repo-name
+```
+### 📌 Option 2: Download ZIP
+
+1. 🔗 Visit the repository on [GitHub](https://github.com/your-username/your-repo-name)
+2. ⬇️ Click on the green **"Code"** button
+3. Select **"Download ZIP"**
+4. 🗂️ Extract the ZIP file to your desired location
+5. 📂 Open the extracted folder in your preferred code editor
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. Run FastAPI Backend
@@ -89,6 +114,32 @@ To enable communication between frontend and backend across your local network:
 
 ✅ After updating the IPs, save the files and restart your app to apply changes.
 
+## 🌟 Key Features
+
+Unlock a smart and personalized health experience powered by AI and data.
+
+---
+
+### 🤖 AI-Powered Health Intelligence
+- Get **tailored nutrition and health tips** generated using advanced AI models.
+
+### 🧮 BMI & Obesity Risk Estimation
+- Instantly calculate **Body Mass Index (BMI)**.
+- Predict **obesity risk levels** using ML-powered FastAPI backend.
+
+### 🗣️ AI Chatbot (Gemini API Integration)
+- Chat with our integrated **AI assistant** for real-time health advice.
+- Ask questions, get support, and interact naturally.
+
+### 🍱 Food Calorie Estimation
+- **Estimate calorie content** of any food item.
+- Automatically **update your daily intake** in real-time.
+
+### 📊 Progress & Health Tracking
+- Monitor your **BMI, weight trends**, and **risk levels**.
+- Visualize **daily calorie goals and progress** through intuitive charts.
+
+---
 
 ## 💡 Developer Tips
 Use ipconfig (Windows) or network settings to find your local IP address.
