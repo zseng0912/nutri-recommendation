@@ -19,8 +19,6 @@ Before getting started, ensure the following tools are installed on your system:
 
 You can get the project files in two ways:
 
----
-
 ### 📌 Option 1: Clone via Git
 
 ```bash
@@ -78,6 +76,7 @@ cd geminiAPI
 # Start Server
 node app.js
 ```
+---
 
 ## ⚙️ Important Configuration
 
@@ -102,7 +101,7 @@ To enable communication between frontend and backend across your local network:
 | `EstimateCalories.js` | Endpoint URL                            | `http://<your_local_ip>:3000/estimate-calories`              |
 | `geminiAPI.js`      | Endpoint URL                            | `http://<your_local_ip>:3000/ai-chatbot`                     |
 
----
+
 
 ### 📁 `nutri/src/screen/`
 
@@ -110,15 +109,15 @@ To enable communication between frontend and backend across your local network:
 |----------------------|----------------|----------------------------------------------------------------|
 | `BMIResultScreen.js` | ~ Line 56      | `https://<your_local_ip>:8000/predict_obesity_risk/`         |
 
----
+
 
 ✅ After updating the IPs, save the files and restart your app to apply changes.
+---
 
 ## 🌟 Key Features
 
 Unlock a smart and personalized health experience powered by AI and data.
 
----
 
 ### 🤖 AI-Powered Health Intelligence
 - Get **tailored nutrition and health tips** generated using advanced AI models.
@@ -145,6 +144,8 @@ Unlock a smart and personalized health experience powered by AI and data.
 Use ipconfig (Windows) or network settings to find your local IP address.
 
 Make sure your mobile device or emulator is connected to the same network as your development machine.
+
+---
 
 ## 📞 Support
 If you encounter any issues or bugs, feel free to create a GitHub issue or contact the maintainer.
