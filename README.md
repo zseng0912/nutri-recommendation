@@ -40,7 +40,8 @@ cd your-repo-name
 
 ## 🚀 Getting Started
 
-### 1. Run FastAPI Backend
+### 1. Start Android Emulator AVD (on Android Studio)
+### 2. Run FastAPI Backend
 
 ```bash
 cd fastapi_backend
@@ -56,7 +57,7 @@ pip install -r requirements.txt
 # Start FastAPI server
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
-### 2. Run Nutri (Main React Native App)
+### 3. Run Nutri (Main React Native App)
 ```bash
 cd nutri
 # Install Expo CLI
@@ -69,7 +70,7 @@ npx expo start
 # (Optional) Reset cache:
 npx expo start -c
 ```
-### 3. Run Gemini API
+### 4. Run Gemini API
 ```bash
 cd geminiAPI
 
