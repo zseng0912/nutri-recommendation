@@ -5,15 +5,27 @@ import { responsiveFontSize as rf } from 'react-native-responsive-dimensions';
 import { supabase } from '../lib/supabase';
 import { Ionicons } from '@expo/vector-icons';
 
+/**
+ * ProgressChart Component
+ * Displays user's health progress tracking with interactive charts and insights
+ * Features:
+ * - Weight, BMI, and Obesity Risk tracking
+ * - Interactive line charts
+ * - Progress insights and interpretations
+ * - Real-time data updates
+ */
 const ProgressChart = () => {
+  // State management for progress tracking
   const [progressData, setProgressData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMetric, setSelectedMetric] = useState('weight');
-
+  
+  // Fetch progress data from Supabase on component mount
   useEffect(() => {
     fetchProgressData();
   }, []);
 
+  // Fetch user's progress tracking data from Supabase
   const fetchProgressData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -34,6 +46,7 @@ const ProgressChart = () => {
     }
   };
 
+  // Format data for chart visualization
   const formatChartData = (metric) => {
     let data;
     if (metric === 'obesity_risk') {
@@ -52,6 +65,7 @@ const ProgressChart = () => {
       data = progressData.map(entry => entry[metric]);
     }
 
+    // Format dates for x-axis labels
     const labels = progressData.map(entry => {
       const date = new Date(entry.created_at);
       return `${date.getMonth() + 1}/${date.getDate()}`;
@@ -66,7 +80,8 @@ const ProgressChart = () => {
       }]
     };
   };
-
+  
+  // Get appropriate y-axis label based on selected metric
   const getYAxisLabel = () => {
     switch (selectedMetric) {
       case 'weight':
@@ -79,7 +94,8 @@ const ProgressChart = () => {
         return '';
     }
   };
-
+  
+  // Calculate insights from the latest progress data
   const getInsights = () => {
     if (progressData.length < 2) return null;
 
@@ -88,7 +104,7 @@ const ProgressChart = () => {
     
     const insights = [];
     
-    // Weight changes
+    // Calculate weight changes
     const weightDiff = latest.weight - previous.weight;
     insights.push({
       metric: 'Weight',
@@ -97,7 +113,7 @@ const ProgressChart = () => {
       unit: 'kg'
     });
 
-    // BMI changes
+    // Calculate BMI changes
     const bmiDiff = latest.bmi - previous.bmi;
     insights.push({
       metric: 'BMI',
@@ -106,7 +122,7 @@ const ProgressChart = () => {
       unit: 'points'
     });
 
-    // Risk Level changes
+    // Track risk level changes
     if (latest.obesity_risk !== previous.obesity_risk) {
       insights.push({
         metric: 'Risk Level',
@@ -119,6 +135,7 @@ const ProgressChart = () => {
     return insights;
   };
 
+    // Get metric-specific information and interpretations
   const getMetricInfo = () => {
     switch (selectedMetric) {
       case 'weight':
@@ -148,7 +165,8 @@ const ProgressChart = () => {
         return {};
     }
   };
-
+  
+  // Interpret BMI values and provide feedback
   const getBMIInterpretation = (bmi) => {
     if (!bmi) return '';
     if (bmi < 18.5) return 'You are currently underweight. Consider consulting a nutritionist.';
@@ -157,6 +175,7 @@ const ProgressChart = () => {
     return 'You are in the obese range. Consider consulting a healthcare professional.';
   };
 
+  // Interpret risk levels and provide feedback
   const getRiskInterpretation = (risk) => {
     if (!risk) return '';
     return `Your current risk level is ${risk.replace(/_/g, ' ')}. ${
