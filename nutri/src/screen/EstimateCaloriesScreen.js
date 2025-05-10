@@ -13,25 +13,31 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { estimateCalories } from '../api/EstimateCalories';
 
+// Screen component for analyzing food images and estimating calories
 export default function EstimateCaloriesScreen() {
+    // Navigation and route hooks
     const route = useRoute();
     const navigation = useNavigation();
     const { imageUri } = route.params;
+
+    // State management for loading, analysis results, and errors
     const [loading, setLoading] = useState(true);
     const [analysis, setAnalysis] = useState(null);
     const [error, setError] = useState(null);
     const [dishName, setDishName] = useState('');
-
+    
+    // Trigger image analysis when component mounts
     useEffect(() => {
         analyzeImage();
     }, []);
 
+    // Main function to analyze the food image and estimate calories
     const analyzeImage = async () => {
         try {
             setLoading(true);
             setError(null);
             
-            // Convert image to base64
+            // Convert image to base64 for API processing
             const response = await fetch(imageUri);
             const blob = await response.blob();
             const base64data = await new Promise((resolve) => {
@@ -43,11 +49,11 @@ export default function EstimateCaloriesScreen() {
                 };
             });
 
-            // Call the API to estimate calories
+            // Call the API to estimate calories from the image
             const result = await estimateCalories(base64data);
             
             if (result.success && result.data) {
-                // Ensure the data is properly structured
+                // Structure the analysis data with fallbacks for missing values
                 const analysis = {
                     foodItems: result.data.foodItems || [],
                     totalCalories: result.data.totalCalories || 0,
@@ -66,11 +72,13 @@ export default function EstimateCaloriesScreen() {
             setLoading(false);
         }
     };
-
+    
+    // Navigation handler for back button
     const handleBack = () => {
         navigation.goBack();
     };
 
+    // Render individual food item with name, calories, and portion
     const renderFoodItem = (item, index) => (
         <View key={index} style={styles.foodItem}>
             <View style={styles.foodItemHeader}>
@@ -81,6 +89,7 @@ export default function EstimateCaloriesScreen() {
         </View>
     );
 
+    // Render notes section with icon and text
     const renderNotes = (notes) => (
         <View style={styles.notesContainer}>
             <Text style={styles.notesTitle}>Notes</Text>
@@ -95,7 +104,7 @@ export default function EstimateCaloriesScreen() {
 
     return (
         <View style={styles.container}>
-            {/* Header */}
+            {/* Header with back button and title */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleBack} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={24} color="#333" />
@@ -104,7 +113,7 @@ export default function EstimateCaloriesScreen() {
             </View>
 
             <ScrollView contentContainerStyle={styles.content}>
-                {/* Image Preview */}
+                {/* Image preview section */}
                 <View style={styles.imageContainer}>
                     <Image
                         source={{ uri: imageUri }}
@@ -113,14 +122,16 @@ export default function EstimateCaloriesScreen() {
                     />
                 </View>
 
-                {/* Results */}
+                {/* Results section with loading, error, or analysis display */}
                 <View style={styles.resultsContainer}>
                     {loading ? (
+                        // Loading state with spinner
                         <View style={styles.loadingContainer}>
                             <ActivityIndicator size="large" color="#29c439" />
                             <Text style={styles.loadingText}>Analyzing image...</Text>
                         </View>
                     ) : error ? (
+                        // Error state with retry option
                         <View style={styles.errorContainer}>
                             <Ionicons name="alert-circle" size={40} color="#ff4444" />
                             <Text style={styles.errorText}>{error}</Text>
@@ -132,22 +143,27 @@ export default function EstimateCaloriesScreen() {
                             </TouchableOpacity>
                         </View>
                     ) : analysis ? (
+                        // Analysis results display
                         <>
+                            {/* Dish name section */}
                             <View style={styles.dishNameContainer}>
                                 <Text style={styles.dishNameLabel}>Dish Name</Text>
                                 <Text style={styles.dishName}>{analysis.dishName}</Text>
                             </View>
 
+                            {/* Total calories section */}
                             <View style={styles.totalCaloriesContainer}>
                                 <Text style={styles.totalCaloriesLabel}>Total Calories</Text>
                                 <Text style={styles.totalCaloriesValue}>{analysis.totalCalories} kcal</Text>
                             </View>
 
+                            {/* Food items list */}
                             <View style={styles.foodItemsContainer}>
                                 <Text style={styles.foodItemsTitle}>Food Items</Text>
                                 {analysis.foodItems.map(renderFoodItem)}
                             </View>
-
+                        
+                            {/* Notes section (if available) */}
                             {analysis.notes && analysis.notes.length > 0 && renderNotes(analysis.notes)}
                         </>
                     ) : null}
