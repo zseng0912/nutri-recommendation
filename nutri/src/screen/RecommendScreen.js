@@ -9,15 +9,33 @@ import { fetchAISuggestion } from "../api/AISuggest";
 import ChatbotFAB from '../components/ChatbotFAB';
 import { getUserProfile } from '../lib/supabaseUtils';
 
+/**
+ * RecommendScreen Component
+ * Displays personalized AI-generated recommendations for recipes and exercises
+ * based on user's BMI and obesity risk level.
+ * 
+ * Features:
+ * - Tab-based navigation between recipes and exercises
+ * - AI-powered personalized recommendations
+ * - Regeneratable suggestions
+ * - Interactive list items with detailed views
+ * - Loading states and error handling
+ */
 export default function RecommendScreen() {
     const navigation = useNavigation();
     const route = useRoute();
-    const [selectedTab, setSelectedTab] = useState("recipes"); 
-    const [recipes, setRecipes] = useState([]);
-    const [exercises, setExercises] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [userProfile, setUserProfile] = useState(null);
 
+    // State management for UI and data
+    const [selectedTab, setSelectedTab] = useState("recipes"); // Current active tab
+    const [recipes, setRecipes] = useState([]); // List of recommended recipes
+    const [exercises, setExercises] = useState([]); // List of recommended exercises
+    const [loading, setLoading] = useState(true); // Loading state indicator
+    const [userProfile, setUserProfile] = useState(null);  // User profile data
+
+    /**
+     * Fetches user profile and AI-generated recommendations
+     * Combines user health data with AI suggestions for personalized content
+     */
     const fetchData = async () => {
         try {
             setLoading(true);
@@ -27,7 +45,7 @@ export default function RecommendScreen() {
                 setLoading(false);
                 return;
             }
-
+            // Get AI suggestions based on user's health metrics
             const aiSuggestionData = await fetchAISuggestion(profile.bmi, profile.obesity_risk);
             setRecipes(aiSuggestionData?.data?.recipes);
             setExercises(aiSuggestionData?.data?.exercises);
@@ -37,15 +55,25 @@ export default function RecommendScreen() {
             setLoading(false);
         }
     };
-
+    
+    // Fetch data on component mount
     useEffect(() => {
         fetchData();
     }, []);
 
+    /**
+     * Regenerates recommendations by refetching data
+     * Triggered by user interaction with refresh button
+     */
     const handleRegenerate = () => {
         fetchData();
     };
 
+    /**
+     * Renders individual recipe item in the list
+     * @param {Object} item - Recipe data object
+     * @param {number} index - Item index in the list
+     */
     const renderRecipeItem = ({ item, index }) => (
         <TouchableOpacity 
             style={styles.listItem}
@@ -64,6 +92,11 @@ export default function RecommendScreen() {
         </TouchableOpacity>
     );
 
+    /**
+     * Renders individual exercise item in the list
+     * @param {Object} item - Exercise data object
+     * @param {number} index - Item index in the list
+     */
     const renderExerciseItem = ({ item, index }) => (
         <TouchableOpacity 
             style={styles.listItem}
@@ -82,6 +115,7 @@ export default function RecommendScreen() {
         </TouchableOpacity>
     );
 
+    // Loading state UI
     if (loading) {
         return (
             <View style={styles.container}>
@@ -98,7 +132,7 @@ export default function RecommendScreen() {
         <View style={styles.container}>
             <StatusBar translucent backgroundColor="transparent" />
 
-            {/* Header */}
+            {/* Header Section*/}
             <View style={styles.header}>
                 <View style={styles.headerTop}>
                     <Text style={styles.headerTitle}>AI Recommendations</Text>
@@ -117,7 +151,7 @@ export default function RecommendScreen() {
                 <Text style={styles.headerSubtitle}>Personalized for your health goals</Text>
             </View>
 
-            {/* Tab Buttons */}
+            {/* Tab Navigations */}
             <View style={styles.tabContainer}>
                 <TouchableOpacity 
                     style={[styles.tabButton, selectedTab === "recipes" && styles.activeTab]} 
@@ -143,7 +177,7 @@ export default function RecommendScreen() {
                 </TouchableOpacity>
             </View>
 
-            {/* Content */}
+            {/* Content Section - Dynamic List Based on Selected Tab */}
             <View style={styles.contentContainer}>
                 {selectedTab === "recipes" ? (
                     <FlatList
@@ -168,6 +202,7 @@ export default function RecommendScreen() {
     );
 }
 
+// Styles for the component
 const styles = StyleSheet.create({
     container: {
         flex: 1,
