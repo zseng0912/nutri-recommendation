@@ -44,7 +44,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to NultriAI</Text>
+      <Text style={styles.title}>Welcome to NutriAI</Text>
       <Text style={styles.subtitle}>Your Personal Nutrition Assistant</Text>
       
       <TextInput
