@@ -254,10 +254,10 @@ app.post("/ai-chatbot", async (req, res) => {
                 }
             ],
             generationConfig: {
-                maxOutputTokens: 100,  // Limit response length
-                temperature: 0.7,      // Balance between creativity and consistency
-                topP: 0.8,            // Control response diversity
-                topK: 40              // Control response diversity
+                maxOutputTokens: 100,  // Limit response length - keeps the chatbot concise and fast
+                temperature: 0.7,      // Balance between creativity and consistency - make sure it is helpful and slightly varied without being too unpredictable
+                topP: 0.8,            // Control response diversity - ensures less likly or potential irrelevant responses are avoided
+                topK: 40              // Control response diversity - ensure more reliable and relevant outputs
             }
         });
 
