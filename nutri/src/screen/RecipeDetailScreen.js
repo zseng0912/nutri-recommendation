@@ -6,13 +6,27 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getUserProfile, addBookmark, removeBookmark, isBookmarked } from '../lib/supabaseUtils';
 
+/**
+ * RecipeDetailScreen Component
+ * Displays detailed information about a specific recipe including:
+ * - Recipe name and icon
+ * - Calorie information
+ * - Description and health benefits
+ * - Ingredients list
+ * - Step-by-step cooking instructions
+ * - Estimated cooking time
+ * - Bookmark functionality
+ */
 export default function RecipeDetailScreen() {
+    // Navigation and route hooks
     const route = useRoute();
     const navigation = useNavigation();
     const { recipe, isBookmarked: initialBookmarked } = route.params;
+    // State management
     const [user, setUser] = useState(null);
     const [isBookmarkedState, setIsBookmarkedState] = useState(initialBookmarked || false);
 
+    // Fetch user profile on component mount
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
@@ -25,24 +39,33 @@ export default function RecipeDetailScreen() {
 
         fetchUserProfile();
     }, []);
-
+    
+    // Check bookmark status if not provided initially
     useEffect(() => {
         if (!initialBookmarked) {
             checkBookmarkStatus();
         }
     }, []);
 
+    /**
+     * Check if the current recipe is bookmarked by the user
+     */
     const checkBookmarkStatus = async () => {
         if (user) {
             const bookmarked = await isBookmarked(user.id, recipe.recipeName, 'recipe');
             setIsBookmarkedState(bookmarked);
         }
     };
-
+    
+    // Navigation handlers
     const handleBack = () => {
         navigation.goBack();
     };
 
+    /**
+     * Toggle bookmark status for the recipe
+     * Adds or removes the recipe from user's bookmarks
+     */
     const handleBookmark = async () => {
         if (!user) {
             // Handle case when user is not logged in
@@ -74,7 +97,7 @@ export default function RecipeDetailScreen() {
                 <Ionicons name="arrow-back" size={24} color="#333" />
             </TouchableOpacity>
 
-            {/* Bookmark Button */}
+            {/* Bookmark Toggle Button */}
             <TouchableOpacity 
                 style={styles.bookmarkButton}
                 onPress={handleBookmark}
@@ -88,7 +111,7 @@ export default function RecipeDetailScreen() {
             </TouchableOpacity>
 
             <ScrollView contentContainerStyle={styles.contentContainer}>
-                {/* Header */}
+                {/* Recipe Header Section */}
                 <View style={styles.header}>
                     <View style={styles.iconContainer}>
                         <FontAwesome5 name={recipe.iconClass} size={40} color="#29c439" />
@@ -97,13 +120,13 @@ export default function RecipeDetailScreen() {
                     <Text style={styles.calories}>{recipe.recipeCalories} calories</Text>
                 </View>
 
-                {/* Description */}
+                {/* Recipe Description Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Description</Text>
                     <Text style={styles.description}>{recipe.recipeDescription}</Text>
                 </View>
 
-                {/* Benefits */}
+                {/* Health Benefits Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Health Benefits</Text>
                     <View style={styles.benefitsContainer}>
@@ -112,7 +135,7 @@ export default function RecipeDetailScreen() {
                     </View>
                 </View>
 
-                {/* Ingredients */}
+                {/* Ingredients List Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Ingredients</Text>
                     {recipe.recipeItems.map((item, index) => (
@@ -123,7 +146,7 @@ export default function RecipeDetailScreen() {
                     ))}
                 </View>
 
-                {/* Instructions */}
+                {/* Cooking Instructions Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Cooking Instructions</Text>
                     {recipe.cookingInstructions.map((instruction, index) => (
@@ -136,7 +159,7 @@ export default function RecipeDetailScreen() {
                     ))}
                 </View>
 
-                {/* Time */}
+                {/* Cooking Time Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Estimated Time</Text>
                     <Text style={styles.timeText}>{recipe.estimatedCookingTime}</Text>
