@@ -41,7 +41,7 @@ export default function IntroScreen() {
       <StatusBar translucent backgroundColor="transparent" />
       
       {/* Logo */}
-      <Text style={styles.logoText}>NultriAI</Text>
+      <Text style={styles.logoText}>NutriAI</Text>
 
       {/* Welcome Image */}
       <Image 
@@ -52,7 +52,7 @@ export default function IntroScreen() {
 
       {/* Introduction Text */}
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Welcome to NultriAI</Text>
+        <Text style={styles.title}>Welcome to NutriAI</Text>
         <Text style={styles.description}>
           Your personal AI-powered nutrition and fitness companion. Get personalized recommendations for healthy recipes and exercises based on your BMI and health profile.
         </Text>
