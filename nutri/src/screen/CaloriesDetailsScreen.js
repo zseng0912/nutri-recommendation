@@ -10,11 +10,14 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { responsiveFontSize as rf } from 'react-native-responsive-dimensions';
 
+// Screen component to display detailed information about a specific meal
 export default function CaloriesDetailsScreen({ route, navigation }) {
+    // Extract meal data from route params
     const { meal } = route.params;
 
     return (
         <View style={styles.container}>
+            {/* Header with back button and title */}
             <View style={styles.header}>
                 <TouchableOpacity 
                     style={styles.backButton}
@@ -26,6 +29,7 @@ export default function CaloriesDetailsScreen({ route, navigation }) {
             </View>
 
             <ScrollView style={styles.content}>
+                {/* Meal image section - shows actual image or default based on meal type */}
                 <View style={styles.imageContainer}>
                     {meal.image_url ? (
                         <Image 
@@ -45,6 +49,7 @@ export default function CaloriesDetailsScreen({ route, navigation }) {
                 </View>
 
                 <View style={styles.detailsContainer}>
+                    {/* Meal name display with fallback to meal type if name not available */}
                     <Text style={styles.mealName}>
                         {meal.dish_name || 
                          (meal.meal_type ? 
@@ -52,6 +57,7 @@ export default function CaloriesDetailsScreen({ route, navigation }) {
                             'Unknown Meal')}
                     </Text>
 
+                    {/* Calories display with icon */}
                     <View style={styles.caloriesContainer}>
                         <Ionicons name="flame" size={24} color="#FF6B6B" />
                         <Text style={styles.caloriesText}>
@@ -59,6 +65,7 @@ export default function CaloriesDetailsScreen({ route, navigation }) {
                         </Text>
                     </View>
 
+                    {/* Food items section - displays individual food items with calories and portions */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Food Items</Text>
                         {meal.food_items && meal.food_items.map((item, index) => (
@@ -72,6 +79,7 @@ export default function CaloriesDetailsScreen({ route, navigation }) {
                         ))}
                     </View>
 
+                    {/* Notes section - displays additional notes if available */}
                     {meal.notes && meal.notes.length > 0 && (
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>Notes</Text>
@@ -81,6 +89,7 @@ export default function CaloriesDetailsScreen({ route, navigation }) {
                         </View>
                     )}
 
+                    {/* Meal information section - displays type, date, and time */}
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Meal Information</Text>
                         <View style={styles.infoRow}>
