@@ -22,8 +22,10 @@ import { supabase } from '../lib/supabase';
 import { estimateCalories } from '../api/EstimateCalories'; // Import your API service
 import { LineChart } from 'react-native-chart-kit';
 
+// Constants for the app
 const TOTAL_CALORIES = 2500;
 
+// Meal type options with their respective configurations
 const MEAL_OPTIONS = [
     {
         type: 'breakfast',
@@ -46,8 +48,11 @@ const MEAL_OPTIONS = [
 ];
 
 export default function CaloriesScreen({navigation}) {
+    // Initialize date to today at midnight
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    // State management for the component
     const [consumedCalories, setConsumedCalories] = useState(1721);
     const [selectedDate, setSelectedDate] = useState(today);
     const [recentMeals, setRecentMeals] = useState([]);
@@ -83,6 +88,7 @@ export default function CaloriesScreen({navigation}) {
         }
     };
 
+    // Function to analyze food image and save meal data
     const analyzeAndSaveImage = async (imageUri, mealType) => {
         setIsAnalyzing(true);
         try {
@@ -90,7 +96,7 @@ export default function CaloriesScreen({navigation}) {
                 throw new Error('User ID not available');
             }
 
-            // Convert image to base64
+            // Convert image to base64 for API processing
             const response = await fetch(imageUri);
             const blob = await response.blob();
             const base64data = await new Promise((resolve) => {
@@ -102,7 +108,7 @@ export default function CaloriesScreen({navigation}) {
                 };
             });
 
-            // Call the API to estimate calories
+            // Call the API to estimate calories from the image
             const result = await estimateCalories(base64data);
             
             if (result.success && result.data) {
@@ -113,7 +119,7 @@ export default function CaloriesScreen({navigation}) {
                     dishName: result.data.dishName || 'Unnamed Dish'
                 };
 
-                // Save to Supabase
+                // Save meal data to Supabase database
                 const { data, error } = await supabase
                     .from('calories')
                     .insert([
@@ -136,7 +142,7 @@ export default function CaloriesScreen({navigation}) {
 
                 if (error) throw error;
 
-                // Refresh meals list
+                // Refresh the meals list after adding new meal
                 await fetchMealsForDate(selectedDate);
 
                 Alert.alert(
@@ -157,12 +163,13 @@ export default function CaloriesScreen({navigation}) {
             setIsAnalyzing(false);
         }
     };
-
+    
+    // Function to fetch meals for a specific date
     const fetchMealsForDate = async (date) => {
         setIsLoading(true);
         try {
             const meals = await getMealsForDate(date);
-            // Sort meals in descending order by created_at
+            // Sort meals by creation time (newest first)
             const sortedMeals = meals.sort((a, b) => 
                 new Date(b.created_at) - new Date(a.created_at)
             );
@@ -178,7 +185,8 @@ export default function CaloriesScreen({navigation}) {
             setIsLoading(false);
         }
     };
-
+    
+    // Function to handle image selection and calorie estimation
     const handleEstimateCalories = async (mealType) => {
         try {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -190,7 +198,8 @@ export default function CaloriesScreen({navigation}) {
                 );
                 return;
             }
-
+            
+            // Show options to take photo or choose from gallery
             Alert.alert(
                 'Select Image',
                 'Choose how you want to select the image',
@@ -372,6 +381,7 @@ export default function CaloriesScreen({navigation}) {
         }
     };
 
+    // Function to fetch and prepare weekly calories data for the graph
     const getWeeklyCaloriesData = async () => {
         try {
             const weekDates = getWeekDates();
@@ -379,13 +389,15 @@ export default function CaloriesScreen({navigation}) {
             const dateLabels = [];
             const pointColors = [];
             let weeklyTotal = 0;
-
+            
+            // Collect calories data for each day of the week
             for (const date of weekDates) {
                 const meals = await getMealsForDate(date);
                 const totalCalories = meals.reduce((sum, meal) => sum + (meal.calories_amount || 0), 0);
                 caloriesData.push(totalCalories);
                 weeklyTotal += totalCalories;
                 dateLabels.push(date.toLocaleDateString('en-US', { weekday: 'short' }));
+                // Color points red if over daily limit, green if under
                 pointColors.push(totalCalories > TOTAL_CALORIES ? 'rgba(255, 0, 0, 1)' : 'rgba(41, 196, 57, 1)');
             }
 
