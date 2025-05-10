@@ -6,13 +6,26 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getUserProfile, addBookmark, removeBookmark, isBookmarked } from '../lib/supabaseUtils';
 
+/**
+ * ExerciseDetailScreen Component
+ * Displays detailed information about a specific exercise including:
+ * - Exercise name and icon
+ * - Duration and intensity
+ * - Description and benefits
+ * - Step-by-step instructions
+ * - Location information
+ * - Bookmark functionality
+ */
 export default function ExerciseDetailScreen() {
+    // Navigation and route hooks
     const route = useRoute();
     const navigation = useNavigation();
     const { exercise, isBookmarked: initialBookmarked } = route.params;
+    // State management
     const [ user, setUser ] = useState(null);
     const [isBookmarkedState, setIsBookmarkedState] = useState(initialBookmarked || false);
-
+    
+    // Fetch user profile on component mount
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
@@ -27,24 +40,33 @@ export default function ExerciseDetailScreen() {
 
         fetchUserProfile();
     }, []);
-    
+
+    // Check bookmark status if not provided initially
     useEffect(() => {
         if (!initialBookmarked) {
             checkBookmarkStatus();
         }
     }, []);
 
+    /**
+     * Check if the current exercise is bookmarked by the user
+     */
     const checkBookmarkStatus = async () => {
         if (user) {
             const bookmarked = await isBookmarked(user.id, exercise.exerciseName, 'exercise');
             setIsBookmarkedState(bookmarked);
         }
     };
-
+    
+    // Navigation handlers
     const handleBack = () => {
         navigation.goBack();
     };
 
+    /**
+     * Toggle bookmark status for the exercise
+     * Adds or removes the exercise from user's bookmarks
+     */
     const handleBookmark = async () => {
         if (!user) {
             // Handle case when user is not logged in
@@ -76,7 +98,7 @@ export default function ExerciseDetailScreen() {
                 <Ionicons name="arrow-back" size={24} color="#333" />
             </TouchableOpacity>
 
-            {/* Bookmark Button */}
+            {/* Bookmark Toggle Button */}
             <TouchableOpacity 
                 style={styles.bookmarkButton}
                 onPress={handleBookmark}
@@ -90,17 +112,19 @@ export default function ExerciseDetailScreen() {
             </TouchableOpacity>
 
             <ScrollView contentContainerStyle={styles.contentContainer}>
-                {/* Header */}
+                {/* Exercise Header Section */}
                 <View style={styles.header}>
                     <View style={styles.iconContainer}>
                         <FontAwesome5 name={exercise.iconClass} size={40} color="#29c439" />
                     </View>
                     <Text style={styles.title}>{exercise.exerciseName}</Text>
                     <View style={styles.metaContainer}>
+                        {/* Duration Information */}
                         <View style={styles.metaRow}>
                             <Ionicons name="time-outline" size={20} color="#29c439" />
                             <Text style={styles.metaText}>{exercise.duration}</Text>
                         </View>
+                        {/* Intensity Information */}
                         <View style={styles.metaRow}>
                             <Ionicons name="speedometer-outline" size={20} color="#29c439" />
                             <Text style={styles.metaText}>{exercise.intensity}</Text>
@@ -108,13 +132,13 @@ export default function ExerciseDetailScreen() {
                     </View>
                 </View>
 
-                {/* Description */}
+                {/* Exercise Description Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Description</Text>
                     <Text style={styles.description}>{exercise.exerciseDescription}</Text>
                 </View>
 
-                {/* Benefits */}
+                {/* Health Benefits Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Health Benefits</Text>
                     <View style={styles.benefitsContainer}>
@@ -123,7 +147,7 @@ export default function ExerciseDetailScreen() {
                     </View>
                 </View>
 
-                {/* Instructions */}
+                {/* Step-by-Step Instructions Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>How to Perform</Text>
                     {exercise.exercisePerform.map((step, index) => (
@@ -136,7 +160,7 @@ export default function ExerciseDetailScreen() {
                     ))}
                 </View>
 
-                {/* Location */}
+                {/* Location Information Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Where to Do It</Text>
                     <View style={styles.locationContainer}>
