@@ -17,7 +17,18 @@ import { responsiveFontSize as rf } from 'react-native-responsive-dimensions';
 import { sendMessage } from '../api/geminiAPI';
 import { getUserProfile } from '../lib/supabaseUtils';
 
+/**
+ * ChatbotFAB Component
+ * A floating action button that opens a nutrition-focused chatbot interface
+ * Features:
+ * - Personalized greeting with user's name
+ * - Real-time message handling
+ * - Loading states and error handling
+ * - Auto-scrolling chat
+ * - Keyboard-aware input
+ */
 export default function ChatbotFAB() {
+    // State management for chat functionality
     const [isVisible, setIsVisible] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -26,6 +37,7 @@ export default function ChatbotFAB() {
     const [error, setError] = useState(null);
     const scrollViewRef = useRef();
 
+    // Fetch user profile and initialize chat when modal opens
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
@@ -51,6 +63,7 @@ export default function ChatbotFAB() {
         }
     }, [isVisible]);
 
+    // Handle sending messages to the AI
     const handleSend = async () => {
         if (!input.trim() || loading) return;
 
@@ -75,7 +88,8 @@ export default function ChatbotFAB() {
             setLoading(false);
         }
     };
-
+    
+    // Handle Enter key press for sending messages
     const handleKeyPress = ({ nativeEvent: { key } }) => {
         if (key === 'Enter' && !loading) {
             handleSend();
@@ -84,6 +98,7 @@ export default function ChatbotFAB() {
 
     return (
         <>
+            {/* Floating Action Button */}
             <TouchableOpacity 
                 style={styles.fab}
                 onPress={() => setIsVisible(true)}
@@ -91,6 +106,7 @@ export default function ChatbotFAB() {
                 <Ionicons name="chatbubble-ellipses" size={24} color="#fff" />
             </TouchableOpacity>
 
+            {/* Chat Modal */}
             <Modal
                 visible={isVisible}
                 animationType="slide"
@@ -99,7 +115,7 @@ export default function ChatbotFAB() {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        {/* Header */}
+                        {/* Header with title and close button */}
                         <View style={styles.header}>
                             <View style={styles.headerContent}>
                                 <Ionicons name="chatbubble-ellipses" size={24} color="#29c439" style={styles.headerIcon} />
@@ -113,12 +129,13 @@ export default function ChatbotFAB() {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Chat Messages */}
+                        {/* Chat Messages Container with Auto-scroll */}
                         <ScrollView
                             ref={scrollViewRef}
                             style={styles.messagesContainer}
                             onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
                         >
+                            {/* Message Bubbles */}
                             {messages.map((message, index) => (
                                 <View
                                     key={index}
@@ -135,12 +152,14 @@ export default function ChatbotFAB() {
                                     </Text>
                                 </View>
                             ))}
+                            {/* Loading Indicator */}
                             {loading && (
                                 <View style={styles.loadingBubble}>
                                     <ActivityIndicator size="small" color="#29c439" />
                                     <Text style={styles.loadingText}>Thinking...</Text>
                                 </View>
                             )}
+                            {/* Error Message */}
                             {error && (
                                 <View style={styles.errorBubble}>
                                     <Text style={styles.errorText}>{error}</Text>
@@ -148,7 +167,7 @@ export default function ChatbotFAB() {
                             )}
                         </ScrollView>
 
-                        {/* Input Area */}
+                        {/* Input Area with Keyboard Handling */}
                         <KeyboardAvoidingView
                             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                             style={styles.inputContainer}
