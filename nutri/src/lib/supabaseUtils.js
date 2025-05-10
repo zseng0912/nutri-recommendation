@@ -1,6 +1,11 @@
 import { supabase } from './supabase';
 
-// User Profile Operations
+/**
+ * User Profile Operations
+ * Functions for managing user profile data in the database
+ */
+
+// Fetch the current user's profile data
 export const getUserProfile = async () => {
   const { data, error } = await supabase
     .from('user_profiles')
@@ -11,6 +16,7 @@ export const getUserProfile = async () => {
   return data;
 };
 
+// Update the current user's profile with new data
 export const updateUserProfile = async (updates) => {
   const { data, error } = await supabase
     .from('user_profiles')
@@ -21,7 +27,12 @@ export const updateUserProfile = async (updates) => {
   return data;
 };
 
-// Progress Tracking Operations
+/**
+ * Progress Tracking Operations
+ * Functions for managing user's progress tracking data
+ */
+
+// Fetch user's progress history, sorted by date
 export const getProgressHistory = async () => {
   const { data, error } = await supabase
     .from('progress_tracking')
@@ -32,6 +43,7 @@ export const getProgressHistory = async () => {
   return data;
 };
 
+// Add a new progress entry for the current user
 export const addProgressEntry = async (entry) => {
   const { data, error } = await supabase
     .from('progress_tracking')
@@ -44,7 +56,12 @@ export const addProgressEntry = async (entry) => {
   return data;
 };
 
-// Recommendations Operations
+/**
+ * Recommendations Operations
+ * Functions for managing user's recommendations
+ */
+
+// Fetch recommendations for the current user
 export const getRecommendations = async () => {
   const { data, error } = await supabase
     .from('recommendations')
@@ -55,20 +72,30 @@ export const getRecommendations = async () => {
   return data;
 };
 
-// Authentication Helper
+/**
+ * Authentication Operations
+ * Helper functions for user authentication
+ */
+
+// Get the currently authenticated user  
 export const getCurrentUser = async () => {
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error) throw error;
   return user;
 };
 
-// Sign Out
+// Sign out the current user
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 }; 
 
-// Bookmarks functions
+/**
+ * Bookmarks Operations
+ * Functions for managing user's bookmarked items (recipes and exercises)
+ */
+
+// Add a new bookmark for the user
 export const addBookmark = async (userId, itemId,item, type) => {
   try {
       const { data, error } = await supabase
@@ -91,6 +118,7 @@ export const addBookmark = async (userId, itemId,item, type) => {
   }
 };
 
+// Remove a bookmark for the user
 export const removeBookmark = async (userId, itemId, type) => {
   try {
       const { data, error } = await supabase
@@ -110,6 +138,7 @@ export const removeBookmark = async (userId, itemId, type) => {
   }
 };
 
+// Fetch all bookmarks for a user
 export const getBookmarks = async (userId) => {
     try {
         const { data: bookmarks, error } = await supabase
@@ -126,6 +155,7 @@ export const getBookmarks = async (userId) => {
     }
 };
 
+// Check if an item is bookmarked by the user
 export const isBookmarked = async (userId, itemId, type) => {
   try {
       const { data, error } = await supabase
@@ -144,9 +174,15 @@ export const isBookmarked = async (userId, itemId, type) => {
   }
 };
 
-// Meals Operations
+/**
+ * Meals Operations
+ * Functions for managing user's meal and calorie tracking data
+ */
+
+// Fetch all meals for a specific date
 export const getMealsForDate = async (date) => {
     try {
+        // Set time range for the entire day
         const startOfDay = new Date(date);
         startOfDay.setHours(0, 0, 0, 0);
         
@@ -168,6 +204,7 @@ export const getMealsForDate = async (date) => {
     }
 };
 
+// Add a new meal entry for the current user
 export const addMeal = async (mealData) => {
     try {
         const { data, error } = await supabase
