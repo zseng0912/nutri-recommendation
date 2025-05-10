@@ -1,3 +1,4 @@
+// Environment and API setup
 require("dotenv").config(); 
 const express = require("express");
 const { GoogleGenerativeAI } = require("@google/generative-ai"); //GEMINI API
@@ -5,13 +6,15 @@ const { GoogleGenerativeAI } = require("@google/generative-ai"); //GEMINI API
 const app = express();
 const port = 3000;
 
-// app.use(express.json());
+// Configure express to handle large payloads (needed for image processing)
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Initialize Gemini AI with API key from environment variables
 const genAI = new GoogleGenerativeAI(process.env.API_KEY); // Get Gemini API_Key
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Updated to newer model
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Using latest Gemini model
 
+// System prompt that defines the AI's behavior and scope (for chatbot purpose)
 const SYSTEM_PROMPT = `You are a helpful nutrition assistant. Only respond to questions related to:
 - BMI
 - Obesity levels
@@ -37,7 +40,7 @@ Assistant: "Focus on a balanced diet and regular exercise. Aim for a 500-calorie
 User: "What's the weather today?"
 Assistant: "I can only help with nutrition-related questions."`;
 
-// Clean JSON format into a proper format for read in frontend
+// Helper function to clean and validate JSON responses from AI
 function cleanJsonResponse(text) {
     try {
         // First, try to find JSON content between code blocks
@@ -108,7 +111,7 @@ function cleanJsonResponse(text) {
     }
 }
 
-//Generate AI Tips
+// API Endpoint: Generate personalized nutrition and exercise recommendations based on BMI
 app.post("/generate-ai-tips", async (req, res) => {
     try {
         const { bmi, obesityRisk } = req.body;
@@ -228,6 +231,7 @@ app.post("/generate-ai-tips", async (req, res) => {
     }
 });
 
+// API Endpoint: Nutrition-focused chatbot with strict response guidelines
 app.post("/ai-chatbot", async (req, res) => {
     try {
         const { message } = req.body;
@@ -271,6 +275,7 @@ app.post("/ai-chatbot", async (req, res) => {
     }
 });
 
+// API Endpoint: Food image analysis for calorie estimation
 app.post("/estimate-calories", async (req, res) => {
     try {
         const { base64Image } = req.body;
@@ -344,7 +349,7 @@ app.post("/estimate-calories", async (req, res) => {
     }
 });
 
-// Listen to server port
+// Start the server with this port
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
