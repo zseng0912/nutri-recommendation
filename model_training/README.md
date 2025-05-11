@@ -21,7 +21,7 @@ Welcome to the **AI Health Risk Prediction** project! This folder contains all t
 1. Open `fai_health_prediction.ipynb` in a Jupyter environment (e.g., Kaggle or JupyterLab).
 2. Ensure the datasets are in the same directory.
 3. Run the notebook to preprocess data, train the model, and evaluate its performance.
-4. The final trained model is saved as `trained_model.pkl`.
+4. The final trained model is saved in `trained_model` folder.
 
 ## ✅ Requirements
 
